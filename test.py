@@ -1,4 +1,7 @@
-from src.interface import Player, create_matches
+import sys
+sys.path.append("src/pyswisspair")
+
+from src.pyswisspair import Player, create_matches
 
 players = []
 

@@ -9,4 +9,4 @@ install:
 	cd build/Minimum-Cost-Perfect-Matching && cmake . && make
 	cd build/swisspair && cmake . && make
 	cd build/bindings && make
-	cp build/bindings/swisspair*.so ../src
+	cp build/bindings/swisspair*.so ../src/pyswisspair
