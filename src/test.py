@@ -1,4 +1,4 @@
-from interface import Player, create_matches
+from src.interface import Player, create_matches
 
 players = []
 
@@ -8,12 +8,17 @@ for i in range(100):
             id="P" + str(i),
             previous_opponents_ids=set(),
             had_bye=False,
-            points=i % 20,
+            points=i,
             rank=i+1,
         )
     )
 
-matches = create_matches(players, False)
+import time
+start = time.time()
+matches = create_matches(players, True)
+duration = time.time()-start
+
+print(duration)
 
 for table_number, match in enumerate(matches):
     print(table_number+1, match)
