@@ -14,4 +14,4 @@ There is an example `test.py` file, which should demostrate how the library is u
 
 ## License
 
-MMIT, whatever it means. If you like this project, I would be happy for a star :)
+MIT, whatever it means. If you like this project, I would be happy for a star :)
