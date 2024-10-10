@@ -13,9 +13,9 @@ project(
 
 add_link_options(-lgmp)
 
-add_subdirectory(swisspair)
-add_subdirectory(swisspair/gmpwrap)
-add_subdirectory(swisspair/Minimum-Cost-Perfect-Matching)
+add_subdirectory(build/swisspair)
+add_subdirectory(build/swisspair/gmpwrap)
+add_subdirectory(build/swisspair/Minimum-Cost-Perfect-Matching)
 
 # Find the module development requirements (requires FindPython from 3.17 or
 # scikit-build-core's built-in backport)

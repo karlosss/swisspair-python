@@ -2,6 +2,7 @@ import os
 import re
 import subprocess
 import sys
+import shutil
 from distutils.dir_util import copy_tree
 from pathlib import Path
 
@@ -112,9 +113,14 @@ class CMakeBuild(build_ext):
                 # CMake 3.12+ only.
                 build_args += [f"-j{self.parallel}"]
 
+        shutil.rmtree(Path.cwd() / "build", ignore_errors=True)
+        shutil.rmtree(Path.cwd() / "swisspair.egg-info", ignore_errors=True)
+
         build_temp = Path(self.build_temp) / ext.name
         if not build_temp.exists():
             build_temp.mkdir(parents=True)
+
+        subprocess.run(["git", "clone", "--recurse-submodules", "https://github.com/karlosss/swisspair.git"], cwd=Path.cwd() / "build", check=True)
 
         subprocess.run(
             ["cmake", ext.sourcedir, *cmake_args], cwd=build_temp, check=True
