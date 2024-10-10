@@ -1,4 +1,4 @@
-# Swisspair-python
+# swisspair-python
 
 A python client for https://github.com/karlosss/swisspair.
 
