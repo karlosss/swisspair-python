@@ -113,36 +113,34 @@ class CMakeBuild(build_ext):
                 # CMake 3.12+ only.
                 build_args += [f"-j{self.parallel}"]
 
-        shutil.rmtree(Path.cwd() / "build", ignore_errors=True)
-        shutil.rmtree(Path.cwd() / "swisspair.egg-info", ignore_errors=True)
-
         build_temp = Path(self.build_temp) / ext.name
         if not build_temp.exists():
             build_temp.mkdir(parents=True)
 
-        subprocess.run(["git", "clone", "--recurse-submodules", "https://github.com/karlosss/swisspair.git"], cwd=Path.cwd() / "build", check=True)
-        subprocess.run(["git", "clone", "https://github.com/karlosss/swisspair-python.git"], cwd=Path.cwd() / "build", check=True)
+        build_dir_path = Path.cwd() / "_build"
+        shutil.rmtree(build_dir_path, ignore_errors=True)
+        build_dir_path.mkdir(parents=True)
 
-        shutil.copy(Path.cwd() / "build" / "swisspair-python" / "CMakeLists.txt", Path.cwd())
-        shutil.copytree(Path.cwd() / "build" / "swisspair-python" / "src", Path.cwd() / "src")
+        subprocess.run(["git", "clone", "--recurse-submodules", "https://github.com/karlosss/swisspair.git"], cwd=build_dir_path, check=True)
+        subprocess.run(["git", "clone", "https://github.com/karlosss/swisspair-python.git"], cwd=build_dir_path, check=True)
 
-        subprocess.run(["ls", "-la"], cwd=Path.cwd() / "build", check=True)
+        shutil.copy(build_dir_path / "swisspair-python" / "CMakeLists.txt", build_dir_path)
 
         subprocess.run(
-            ["cmake", ext.sourcedir, *cmake_args], cwd=build_temp, check=True
+            ["cmake", build_dir_path, *cmake_args], cwd=build_dir_path, check=True
         )
 
         subprocess.run(
-            ["cmake", "--build", ".", *build_args], cwd=build_temp, check=True
+            ["cmake", "--build", ".", *build_args], cwd=build_dir_path, check=True
         )
 
-        copy_tree(Path.cwd() / "src" / "swisspair", extdir / "swisspair")
+        copy_tree(build_dir_path / "swisspair-python" / "src" / "swisspair", extdir / "swisspair")
 
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="swisspair",
-    version="0.0.2",
+    version="0.0.8",
     author="Karel Jilek",
     author_email="los.karlosss@gmail.com",
     description="Python bindings for Swiss pairing algorithm for (not only) Magic: The Gathering.",
