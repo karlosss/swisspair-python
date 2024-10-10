@@ -36,7 +36,7 @@ struct Match {
 std::vector<Match> create_matches(const std::vector<Player>& players, bool powerPairing);
 
 
-PYBIND11_MODULE(pyswisspair, m) {
+PYBIND11_MODULE(_swisspair, m) {
     m.doc() = "Swiss pairing algorithm for not only Magic: The Gathering";
 
     py::class_<Player>(m, "Player")

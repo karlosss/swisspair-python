@@ -121,6 +121,12 @@ class CMakeBuild(build_ext):
             build_temp.mkdir(parents=True)
 
         subprocess.run(["git", "clone", "--recurse-submodules", "https://github.com/karlosss/swisspair.git"], cwd=Path.cwd() / "build", check=True)
+        subprocess.run(["git", "clone", "https://github.com/karlosss/swisspair-python.git"], cwd=Path.cwd() / "build", check=True)
+
+        shutil.copy(Path.cwd() / "build" / "swisspair-python" / "CMakeLists.txt", Path.cwd())
+        shutil.copytree(Path.cwd() / "build" / "swisspair-python" / "src", Path.cwd() / "src")
+
+        subprocess.run(["ls", "-la"], cwd=Path.cwd() / "build", check=True)
 
         subprocess.run(
             ["cmake", ext.sourcedir, *cmake_args], cwd=build_temp, check=True
@@ -136,13 +142,14 @@ class CMakeBuild(build_ext):
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="swisspair",
-    version="0.0.1",
+    version="0.0.2",
     author="Karel Jilek",
     author_email="los.karlosss@gmail.com",
     description="Python bindings for Swiss pairing algorithm for (not only) Magic: The Gathering.",
     long_description="",
-    ext_modules=[CMakeExtension("pyswisspair")],
+    ext_modules=[CMakeExtension("_swisspair")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     python_requires=">=3.9",
+    requires=[]
 )

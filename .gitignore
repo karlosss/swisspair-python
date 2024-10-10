@@ -1,3 +1,3 @@
 build/
-swisspair.egg-info
-
+swisspair.egg-info/
+dist/
