@@ -2,6 +2,13 @@
 
 A python client for https://github.com/karlosss/swisspair.
 
+## Requirements
+
+- `pybind11`
+- `gcc`
+- `cmake`
+- `gmp`
+
 ## Installation
 
 - Clone the repository
