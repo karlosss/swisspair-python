@@ -10,6 +10,14 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: LS
+        run: ls -R
+
+      - name: Update version
+        run: sed "s/^version.*\$/version = \"${{ github.ref_name }}\"/g" && false
 
       - name: Build SDist
         run: pipx run build --sdist
@@ -34,6 +42,11 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Update version
+        run: sed "s/^version.*\$/version = \"${{ github.ref_name }}\"/g"
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
