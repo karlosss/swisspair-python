@@ -140,7 +140,7 @@ class CMakeBuild(build_ext):
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="swisspair",
-    version="0.0.11",
+    version=open("VERSION").read().strip(),
     author="Karel Jilek",
     author_email="los.karlosss@gmail.com",
     description="Python bindings for Swiss pairing algorithm for (not only) Magic: The Gathering.",
