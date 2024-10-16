@@ -12,11 +12,3 @@ build-backend = "setuptools.build_meta"
 before-all = """
 yum -y install gmp-devel || apk add gmp-dev || apt-get install -y libgmp-dev || true
 """
-
-[tool.cibuildwheel.macos]
-before-all = """
-echo HELLO
-echo HELLO >&2
-brew install gmp
-export "CFLAGS=-I/usr/local/include -L/usr/local/lib -I/opt/homebrew/include -I/opt/homebrew/opt/gmp/include"
-"""
