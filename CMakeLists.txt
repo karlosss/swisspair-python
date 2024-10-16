@@ -6,6 +6,13 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_BUILD_RPATH $ORIGIN)
 
+execute_process (
+    COMMAND bash -c "pybind11-config --cmakedir"
+    OUTPUT_VARIABLE CMAKEDIR
+)
+
+add_definitions(-Dpybind11_DIR="${CMAKEDIR}")
+
 # Scikit-build-core sets these values for you, or you can just hard-code the
 # name and version.
 project(
