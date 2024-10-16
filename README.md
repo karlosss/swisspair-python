@@ -1,6 +1,6 @@
 # swisspair-python
 
-A python client for https://github.com/karlosss/swisspair.
+A python client for https://github.com/karlosss/swisspair - algorithm to pair players according to the Swiss system (not only) for Magic: The Gathering 
 
 ## Requirements
 
@@ -11,21 +11,22 @@ A python client for https://github.com/karlosss/swisspair.
 
 ## Installation
 
-### Local installation
-
-- Clone the repository
-- In your project, do `pip install <PATH_TO_THE_CLONED_REPOSITORY>`
-
 ### Pip installation
 
 - `pip install swisspair`
 
+At the moment works only on Linux.
+
+### Local installation
+
+- Requirements: `pybind11`, `gcc`, `cmake`, `gmp`
+- Clone the repository
+- `python -m build`
+- In your project, do `pip install <PATH_TO_THE_CLONED_REPOSITORY>`
+
 ### Docker image
 
-Because `pybind11` can be pain on some distributions (looking at you, Ubuntu), there is a docker image based on
-ArchLinux with python and swisspair module.
-
-TODO publish the image
+If you are on MacOS, you can still use `swisspair` through a dockerized HTTP API. Refer to https://github.com/karlosss/swisspair-python-http-api.
 
 ## Usage
 
