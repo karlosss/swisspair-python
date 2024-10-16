@@ -1,12 +1,19 @@
 [build-system]
 requires = [
-    "setuptools>=43",
-    "wheel",
-    "ninja",
-    "cmake>=3.12",
+    "scikit-build-core>=0.10",
     "pybind11[global]"
 ]
-build-backend = "setuptools.build_meta"
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "swisspair"
+version = "0.0.13"
+author = "Karel Jilek"
+author_email = "los.karlosss@gmail.com"
+description = "Python bindings for Swiss pairing algorithm for (not only) Magic: The Gathering."
+readme = "README.md"
+python_requires = ">=3.9"
+requires=[]
 
 [tool.cibuildwheel.linux]
 before-all = """
