@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.15...3.27)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(CMAKE_BUILD_RPATH $ORIGIN)
+set(CMAKE_INSTALL_RPATH $ORIGIN)
 
 execute_process (
     COMMAND bash -c "pybind11-config --cmakedir"
@@ -44,3 +44,6 @@ target_compile_definitions(_swisspair PRIVATE VERSION_INFO=${PROJECT_VERSION})
 
 # The install directory is the output (wheel) directory
 install(TARGETS _swisspair DESTINATION swisspair)
+install(TARGETS swisspair DESTINATION swisspair)
+install(TARGETS gmpwrap DESTINATION swisspair)
+install(TARGETS mincostpmatch DESTINATION swisspair)

@@ -17,5 +17,5 @@ requires=[]
 
 [tool.cibuildwheel.linux]
 before-all = """
-yum -y install gmp-devel || apk add gmp-dev || apt-get install -y libgmp-dev || true
+yum -y install gmp-devel || apk add gmp-dev
 """
