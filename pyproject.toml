@@ -7,3 +7,8 @@ requires = [
     "pybind11[global]"
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+before-all = """
+yum -y install gmp-devel || apk add gmp-dev || apt-get install -y libgmp-dev || true
+"""
