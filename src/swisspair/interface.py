@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-import _swisspair
+from ._swisspair import Player as _Player, Match as _Match, create_matches as _create_matches
 
 @dataclass
 class Player:
@@ -10,8 +10,8 @@ class Player:
     can_get_bye: bool = True
     cannot_be_paired_against_ids: set[str] = field(default_factory=set)
 
-    def compile(self) -> _swisspair.Player:
-        p = _swisspair.Player()
+    def compile(self) -> _Player:
+        p = _Player()
         p.id = self.id
         p.cannot_be_paired_against_ids = self.cannot_be_paired_against_ids
         p.can_get_bye = self.can_get_bye
@@ -20,7 +20,7 @@ class Player:
         return p
 
     @staticmethod
-    def decompile(player: _swisspair.Player) -> "Player":
+    def decompile(player: _Player) -> "Player":
         return Player(id=player.id, cannot_be_paired_against_ids=player.cannot_be_paired_against_ids, can_get_bye=player.can_get_bye, points=player.points, rank=player.rank)
 
 @dataclass
@@ -29,7 +29,7 @@ class Match:
     p2: Player | None
 
     @staticmethod
-    def decompile(match: _swisspair.Match) -> "Match":
+    def decompile(match: _Match) -> "Match":
         return Match(p1=Player.decompile(match.p1), p2=Player.decompile(match.p2) if not match.is_bye else None)
 
     @property
@@ -54,5 +54,5 @@ def _validate_players(players: list[Player]) -> None:
 
 def create_matches(players: list[Player], power_pairing: bool = False) -> list[Match]:
     _validate_players(players)
-    matches = _swisspair.create_matches([p.compile() for p in players], power_pairing)
+    matches = _create_matches([p.compile() for p in players], power_pairing)
     return [Match.decompile(m) for m in matches]
