@@ -1,0 +1,3 @@
+[submodule "src/swisspair_cpp"]
+	path = src/swisspair_cpp
+	url = https://github.com/karlosss/swisspair.git
