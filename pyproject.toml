@@ -19,3 +19,8 @@ requires=[]
 before-all = """
 yum -y install gmp-devel || apk add gmp-dev
 """
+
+[tool.cibuildwheel.macos]
+before-all = """
+brew install gmp pkg-config
+"""
