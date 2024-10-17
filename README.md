@@ -26,7 +26,7 @@ At the moment works only on Linux.
 
 ### Docker image
 
-If you are on MacOS, you can still use `swisspair` through a dockerized HTTP API. Refer to https://github.com/karlosss/swisspair-python-http-api.
+You can also use `swisspair` through a dockerized HTTP API. Refer to https://github.com/karlosss/swisspair-python-http-api.
 
 ## Usage
 
