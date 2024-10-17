@@ -22,9 +22,13 @@ project(
 
 add_link_options(-lgmp)
 
-add_subdirectory(src/swisspair_cpp)
+# macos stuff
+include_directories(/opt/homebrew/include)
+link_directories(/opt/homebrew/lib)
+
 add_subdirectory(src/swisspair_cpp/gmpwrap)
 add_subdirectory(src/swisspair_cpp/Minimum-Cost-Perfect-Matching)
+add_subdirectory(src/swisspair_cpp)
 
 # Find the module development requirements (requires FindPython from 3.17 or
 # scikit-build-core's built-in backport)

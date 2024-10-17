@@ -2,7 +2,7 @@ name: Test PyPI deploy
 on:
   push:
     branches:
-      - "**"
+      - master
 
 jobs:
   generate_version:
