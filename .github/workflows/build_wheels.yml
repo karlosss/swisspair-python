@@ -7,12 +7,8 @@ on:
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-#        os: [ubuntu-latest, macos-13, macos-14] currently only works on Linux
-        os: [ubuntu-latest]
+    name: Build wheels
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout the repository
@@ -22,3 +18,40 @@ jobs:
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
+
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-ubuntu-latest
+          path: wheelhouse/*.whl
+
+  run_tests:
+    name: Run tests locally
+    runs-on: ubuntu-latest
+    needs: build_wheels
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-*
+          path: dist
+          merge-multiple: true
+
+      - name: Install wheel
+        run: pip install wheel
+
+      - name: Install locally
+        run: pip install "$(echo dist/swisspair*cp312*manylinux*x86_64*.whl)"[test]
+
+      - name: Run tests
+        run: pytest
