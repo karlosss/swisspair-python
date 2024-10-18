@@ -125,7 +125,7 @@ jobs:
           path: .
 
       - name: Wait for package and install it
-        run: while ! pip install https://test.pypi.org/simple/ --no-cache-dir swisspair[test]==$(cat VERSION); do sleep 5; done
+        run: while ! pip install --extra-index-url https://test.pypi.org/simple/ --no-cache-dir swisspair[test]==$(cat VERSION); do sleep 5; done
 
       - name: Run tests
         run: pytest
