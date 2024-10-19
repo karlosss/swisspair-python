@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 3.15...3.27)
 set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_INSTALL_RPATH $ORIGIN)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Scikit-build-core sets these values for you, or you can just hard-code the
 # name and version.
