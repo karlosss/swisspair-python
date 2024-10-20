@@ -13,8 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-13, macos-14]
-    env:
-      MACOSX_DEPLOYMENT_TARGET: 13.0
 
     steps:
       - name: Set MACOSX_DEPLOYMENT_TARGET
