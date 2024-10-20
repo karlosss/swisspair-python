@@ -1,4 +1,4 @@
-name: Check PR
+name: Check PR to master
 
 on:
   pull_request:
@@ -14,9 +14,19 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-13, macos-14]
     env:
-      MACOSX_DEPLOYMENT_TARGET: 14.0
+      MACOSX_DEPLOYMENT_TARGET: 13.0
 
     steps:
+      - name: Set MACOSX_DEPLOYMENT_TARGET
+        run: |
+          if [[ ${{ matrix.os }} = macos-13 ]]
+          then
+            echo "MACOSX_DEPLOYMENT_TARGET=13.0" >> "$GITHUB_ENV"
+          elif [[ ${{ matrix.os }} = macos-14 ]]
+          then
+            echo "MACOSX_DEPLOYMENT_TARGET=14.0" >> "$GITHUB_ENV"
+          fi
+
       - name: Checkout the repository
         uses: actions/checkout@v4
         with:
@@ -69,7 +79,7 @@ jobs:
             pip install "$(echo dist/swisspair*cp"$(tr -d . <<< "${{ matrix.python-version }}")"*manylinux*x86_64*.whl)"[test]
           elif [[ ${{ matrix.os }} = macos-13 ]]
           then
-            pip install "$(echo dist/swisspair*cp"$(tr -d . <<< "${{ matrix.python-version }}")"*macosx_14_0*x86_64.whl)"
+            pip install "$(echo dist/swisspair*cp"$(tr -d . <<< "${{ matrix.python-version }}")"*macosx_13_0*x86_64*.whl)"[test]
           elif [[ ${{ matrix.os }} = macos-14 ]]
           then
             pip install "$(echo dist/swisspair*cp"$(tr -d . <<< "${{ matrix.python-version }}")"*macosx_14_0*arm64.whl)"[test]
