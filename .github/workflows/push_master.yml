@@ -50,28 +50,19 @@ jobs:
           path: dist/*.tar.gz
 
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheels (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     needs: generate_version
     strategy:
+      fail-fast: false
       matrix:
-#        os: [ubuntu-latest, macos-13, macos-14] currently only works on Linux
-        os: [ubuntu-latest]
+        os: [ ubuntu-latest ]
 
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-
-      - name: Download version
-        uses: actions/download-artifact@v4
-        with:
-          name: VERSION
-          path: .
-
-      - name: Update version
-        run: sed -i "s/^version.*\$/version = \"$(cat VERSION)\"/g" pyproject.toml
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
@@ -108,9 +99,14 @@ jobs:
           password: ${{ secrets.TESTPYPI_TOKEN }}
 
   install_and_run_tests:
-    name: Install package from Test PyPI and run tests
+    name: Install package from Test PyPI and run tests (${{ matrix.os }}, ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
     needs: publish_test
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13" ]
 
     steps:
       - name: Checkout the tests
@@ -119,7 +115,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: ${{ matrix.python-version }}
 
       - name: Download version
         uses: actions/download-artifact@v4
@@ -128,7 +124,7 @@ jobs:
           path: .
 
       - name: Wait for package and install it
-        run: while ! pip install --extra-index-url https://test.pypi.org/simple/ --no-cache-dir swisspair[test]==$(cat VERSION); do sleep 5; done
+        run: cnt=0; while ! pip install --extra-index-url https://test.pypi.org/simple/ --no-cache-dir swisspair[test]==$(cat VERSION); if [[ $cnt -eq 10 ]]; then echo "Package unavailable"; exit 1; fi; do sleep 5; cnt=$((cnt+1)); done
 
       - name: Run tests
         run: pytest
