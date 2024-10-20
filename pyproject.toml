@@ -7,6 +7,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "swisspair"
+# version is only for local development, it gets set automatically in CI/CD
 version = "0.0.13"
 author = "Karel Jilek"
 author_email = "los.karlosss@gmail.com"

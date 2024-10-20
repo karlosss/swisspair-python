@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheels (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -30,7 +30,7 @@ jobs:
           path: wheelhouse/*.whl
 
   run_tests:
-    name: Run tests locally on ${{ matrix.os }} with Python ${{ matrix.python-version }}
+    name: Run tests locally (${{ matrix.os }}, ${{ matrix.python-version }})
     runs-on: ${{ matrix.os }}
     needs: build_wheels
     strategy:
