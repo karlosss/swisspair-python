@@ -35,7 +35,7 @@ jobs:
           path: .
 
       - name: Update version
-        run: sed -i "s/^version.*\$/version = \"$(cat VERSION)\"/g" pyproject.toml
+        run: sed -i "s/^version.*\$/version = \"$(cat VERSION)\"/g" pyproject.toml || sed -i "" "s/^version.*\$/version = \"$(cat VERSION)\"/g" pyproject.toml
 
       - name: Build SDist
         run: pipx run build --sdist
@@ -81,7 +81,7 @@ jobs:
           path: .
 
       - name: Update version
-        run: sed -i "s/^version.*\$/version = \"$(cat VERSION)\"/g" pyproject.toml
+        run: sed -i "s/^version.*\$/version = \"$(cat VERSION)\"/g" pyproject.toml || sed -i "" "s/^version.*\$/version = \"$(cat VERSION)\"/g" pyproject.toml
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
