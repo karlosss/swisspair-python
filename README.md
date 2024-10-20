@@ -15,7 +15,7 @@ A python client for https://github.com/karlosss/swisspair - algorithm to pair pl
 
 - `pip install swisspair`
 
-At the moment works only on Linux.
+At the moment, Linux and MacOS are supported.
 
 ### Local installation
 

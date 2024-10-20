@@ -1,40 +1,17 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+
 #include <iostream>
 #include <set>
 #include <vector>
 
+#include "models/Match.h"
+#include "models/Player.h"
+
 namespace py = pybind11;
 
-struct Player {
-  std::string id;
-  std::set<std::string> cannot_be_paired_against_ids;
-  bool can_get_bye = true;
-  int points;
-  int rank;
-
-  std::string to_string() const;
-
-  bool operator==(const Player& other) const;
-};
-
-struct Match {
-  Player p1;
-  Player p2;
-  bool is_bye;
-
-  Match(const Player & p1, const Player & p2);
-  Match(const Player & p1);
-  Match(const Match & other);
-
-  bool operator<(const Match & other) const;
-
-
-  std::string to_string() const;
-};
-
-std::vector<Match> create_matches(const std::vector<Player>& players, bool powerPairing);
-
+std::vector<Match> create_matches(const std::vector<Player> &players,
+                                  bool powerPairing);
 
 PYBIND11_MODULE(_swisspair, m) {
     m.doc() = "Swiss pairing algorithm for not only Magic: The Gathering";
