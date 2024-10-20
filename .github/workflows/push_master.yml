@@ -64,6 +64,15 @@ jobs:
         with:
           submodules: 'recursive'
 
+      - name: Download version
+        uses: actions/download-artifact@v4
+        with:
+          name: VERSION
+          path: .
+
+      - name: Update version
+        run: sed -i "s/^version.*\$/version = \"$(cat VERSION)\"/g" pyproject.toml
+
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
 
