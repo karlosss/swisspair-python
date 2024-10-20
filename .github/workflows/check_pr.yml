@@ -1,14 +1,18 @@
-name: Build
+name: Check PR
 
 on:
   pull_request:
     branches:
-      - "**"
+      - master
 
 jobs:
   build_wheels:
-    name: Build wheels
-    runs-on: ubuntu-latest
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
 
     steps:
       - name: Checkout the repository
@@ -22,13 +26,19 @@ jobs:
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-ubuntu-latest
+          name: cibw-wheels-${{ matrix.os }}
           path: wheelhouse/*.whl
 
   run_tests:
-    name: Run tests locally
-    runs-on: ubuntu-latest
+    name: Run tests locally on ${{ matrix.os }} with Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
     needs: build_wheels
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
@@ -38,7 +48,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -51,7 +61,7 @@ jobs:
         run: pip install wheel
 
       - name: Install locally
-        run: pip install "$(echo dist/swisspair*cp312*manylinux*x86_64*.whl)"[test]
+        run: pip install "$(echo dist/swisspair*cp"$(tr -d . <<< "${{ matrix.python-version }}")"*manylinux*x86_64*.whl)"[test]
 
       - name: Run tests
         run: pytest
