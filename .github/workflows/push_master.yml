@@ -132,11 +132,13 @@ jobs:
           name: VERSION
           path: .
 
-      - name: Wait for 30 seconds for the package to become available
-        run: sleep 30
-
+      # retry up to 10 times in case the package is not available yet
       - name: Install the package
-        run: pip install --extra-index-url https://test.pypi.org/simple/ --no-cache-dir swisspair[test]=="$(cat VERSION)"
+        uses: nick-fields/retry@v3.0.0
+        with:
+          retry_wait_seconds: 10
+          max_attempts: 10
+          command: pip install --extra-index-url https://test.pypi.org/simple/ --no-cache-dir swisspair[test]=="$(cat VERSION)"
 
       - name: Run tests
         run: pytest
