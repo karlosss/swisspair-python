@@ -2,7 +2,7 @@ name: Test PyPI deploy
 on:
   push:
     branches:
-      - "**"
+      - master
 
 jobs:
   generate_version:
@@ -82,8 +82,8 @@ jobs:
           name: cibw-wheels-${{ matrix.os }}
           path: wheelhouse/*.whl
 
-  publish:
-    name: Publish to PyPI
+  publish_test:
+    name: Publish to test PyPI
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
 
@@ -106,3 +106,29 @@ jobs:
           repository-url: "https://test.pypi.org/legacy/"
           user: __token__
           password: ${{ secrets.TESTPYPI_TOKEN }}
+
+  install_and_run_tests:
+    name: Install package from Test PyPI and run tests
+    needs: publish_test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the tests
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Download version
+        uses: actions/download-artifact@v4
+        with:
+          name: VERSION
+          path: .
+
+      - name: Wait for package and install it
+        run: while ! pip install --extra-index-url https://test.pypi.org/simple/ --no-cache-dir swisspair[test]==$(cat VERSION); do sleep 5; done
+
+      - name: Run tests
+        run: pytest

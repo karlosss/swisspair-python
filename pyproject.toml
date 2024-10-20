@@ -19,3 +19,23 @@ requires=[]
 before-all = """
 yum -y install gmp-devel || apk add gmp-dev
 """
+
+[tool.cibuildwheel.macos]
+before-all = """
+brew install gmp pkg-config
+"""
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
+xfail_strict = true
+log_cli_level = "INFO"
+filterwarnings = [
+  "error",
+  "ignore::pytest.PytestCacheWarning",
+]
+testpaths = ["tests"]
+python_functions = "Given*"
