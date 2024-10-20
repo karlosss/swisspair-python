@@ -123,8 +123,11 @@ jobs:
           name: VERSION
           path: .
 
-      - name: Wait for package and install it
-        run: cnt=0; while ! pip install --extra-index-url https://test.pypi.org/simple/ --no-cache-dir swisspair[test]==$(cat VERSION); if [[ $cnt -eq 10 ]]; then echo "Package unavailable"; exit 1; fi; do sleep 5; cnt=$((cnt+1)); done
+      - name: Wait for 30 seconds for the package to become available
+        run: sleep 30
+
+      - name: Install the package
+        run: pip install --extra-index-url https://test.pypi.org/simple/ --no-cache-dir swisspair[test]=="$(cat VERSION)"
 
       - name: Run tests
         run: pytest
