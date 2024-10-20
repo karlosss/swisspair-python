@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from typing import Optional
 
 from ._swisspair import Player as _Player, Match as _Match, create_matches as _create_matches
 
@@ -26,7 +27,7 @@ class Player:
 @dataclass
 class Match:
     p1: Player
-    p2: Player | None
+    p2: Optional[Player]
 
     @staticmethod
     def decompile(match: _Match) -> "Match":
