@@ -37,9 +37,9 @@ A sample usage below. For all available parameters, please refer to [the interfa
 ```python
 from swisspair import Player, create_matches
 
-p1 = Player(id="P2", points=3, rank=1, can_get_bye=True, cannot_be_paired_against_ids={"P3"})
-p2 = Player(id="P1", points=3, rank=2, can_get_bye=False, cannot_be_paired_against_ids=set())
-p3 = Player(id="P3", points=0, rank=3, can_get_bye=True, cannot_be_paired_against_ids={"P3"})
+p1 = Player(id="P1", points=3, rank=1, can_get_bye=True, cannot_be_paired_against_ids={"P3"})
+p2 = Player(id="P2", points=3, rank=2, can_get_bye=False, cannot_be_paired_against_ids=set())
+p3 = Player(id="P3", points=0, rank=3, can_get_bye=True, cannot_be_paired_against_ids={"P1"})
 
 players = [p1, p2, p3]
 
