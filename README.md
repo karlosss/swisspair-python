@@ -4,10 +4,8 @@ A python client for https://github.com/karlosss/swisspair - algorithm to pair pl
 
 ## Requirements
 
-- `pybind11`
-- `gcc`
-- `cmake`
-- `gmp`
+- Linux, MacOS 13 (x86_64) or MacOS 14 (arm)
+- Python 3.9+ 
 
 ## Installation
 
@@ -15,9 +13,7 @@ A python client for https://github.com/karlosss/swisspair - algorithm to pair pl
 
 - `pip install swisspair`
 
-At the moment, Linux and MacOS are supported.
-
-### Local installation
+### Local build & installation
 
 - Requirements: `pybind11`, `gcc`, `cmake`, `gmp`
 - Clone the repository
