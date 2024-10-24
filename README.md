@@ -22,7 +22,7 @@ A python client for https://github.com/karlosss/swisspair - algorithm to pair pl
 
 ### Docker image
 
-You can also use `swisspair` through a dockerized HTTP API. Refer to https://github.com/karlosss/swisspair-python-http-api.
+You can also use `swisspair` through a dockerized HTTP API. The image is available in Docker Hub and is called `karlosssss/swisspair-http`. Refer to https://github.com/karlosss/swisspair-python-http-api for more details.
 
 ## Usage
 
